@@ -1,8 +1,7 @@
 from calibre.utils.config import JSONConfig
 from qt.core import QCheckBox, QComboBox, QFormLayout, QLabel, QSpinBox, QWidget
 
-# (key, title, width, height) -- portrait px. Models with the same screen are merged into one entry.
-# Verify for your model.
+# (key, title, width, height) -- portrait px. Verify for your model; use 'Other / custom size' if it is not listed.
 MODELS = [
     ('basic-2022', 'Kindle Basic (2022-2026)', 1072, 1448),
     ('basic-2019', 'Kindle Basic (2019)', 600, 800),
@@ -16,6 +15,13 @@ MODELS = [
     ('voyage', 'Kindle Voyage (2014)', 1072, 1448),
     ('scribe-11', 'Kindle Scribe 11" (2025-2026)', 1980, 2640),
     ('scribe-10', 'Kindle Scribe (2022-2024)', 1860, 2480),
+    # other e-readers
+    ('kobo-6', 'Kobo Clara / Nia class (6", 1072 x 1448)', 1072, 1448),
+    ('kobo-7', 'Kobo Libra / Clara Colour class (7", 1264 x 1680)', 1264, 1680),
+    ('kobo-8', 'Kobo Sage / Forma (8", 1440 x 1920)', 1440, 1920),
+    ('kobo-10', 'Kobo Elipsa / Tolino Epos (10", 1404 x 1872)', 1404, 1872),
+    ('tolino-7', 'Tolino Vision (7", 1264 x 1680)', 1264, 1680),
+    ('pocketbook-6', 'PocketBook Verse / Basic class (758 x 1024)', 758, 1024),
 ]
 CUSTOM = 'custom'
 DEFAULT_MODEL = 'basic-2022'
@@ -71,7 +77,7 @@ class ConfigWidget(QWidget):
         form.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow)
         form.setVerticalSpacing(10)
 
-        self.enabled = QCheckBox('Fit the cover to the Kindle screen before sending')
+        self.enabled = QCheckBox('Fit the cover to the e-reader screen before sending')
         self.enabled.setChecked(prefs['enabled'])
         form.addRow(self.enabled)
 
@@ -92,7 +98,7 @@ class ConfigWidget(QWidget):
             self.model.addItem(title, k)
         self.model.addItem('Other / custom size', CUSTOM)
         self.model.setCurrentIndex(max(0, self.model.findData(_model_key())))
-        form.addRow('Kindle model', self.model)
+        form.addRow('Device', self.model)
 
         self.res = QLabel()
         form.addRow('Screen', self.res)

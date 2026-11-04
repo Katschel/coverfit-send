@@ -6,7 +6,7 @@ from qt.core import QMenu, QToolButton
 class CoverFitSendAction(InterfaceAction):
     name = 'CoverFit Send'
     action_spec = ('CoverFit Send', None,
-                   'Email selected books (cover fitted to the screen) to your Kindle', None)
+                   'Email selected books (cover fitted to the screen) to your e-reader', None)
     popup_type = QToolButton.ToolButtonPopupMode.MenuButtonPopup
 
     def _icon(self):
