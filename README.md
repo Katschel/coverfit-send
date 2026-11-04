@@ -11,7 +11,7 @@ A Calibre plugin that emails EPUBs to your e-reader with the cover resized to fi
 
 ## Installation
 
-1. Download `CoverFit_Send.zip` from Releases.
+1. Download `CoverFit_Send.zip` from [Releases](https://github.com/Katschel/coverfit-send/releases).
 2. In Calibre: **Preferences** > **Plugins** > **Load plugin from file**.
 3. Select the ZIP file and restart Calibre.
 
