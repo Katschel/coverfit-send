@@ -1,39 +1,45 @@
 # CoverFit Send
 
-A Calibre plugin that emails books to your e-reader with the cover fitted to the device's screen.
-
-Some e-readers show a cover with borders or a different aspect ratio than the screen. CoverFit Send resizes the cover of a temporary copy of the EPUB to your device's screen size right before it is sent by email. Your library and the original file stay untouched.
+A Calibre plugin that emails EPUBs to your e-reader with the cover resized to fit the device screen.
 
 ## Features
 
-- Resizes the cover to the exact screen size of your device (stretch) or fills it while keeping proportions (crop)
-- Device list grouped by brand: Kindle, Kobo, Tolino, PocketBook, Onyx Boox, plus a custom size for any other e-reader
-- Toolbar button with a menu to send directly to any address set up in Calibre
-- Works on a temporary copy; the original EPUB and the library cover are never modified
-- If no cover can be found, the book is sent unchanged and you get a notice
+* **Cover Resizing**: Fits covers to your screen size via stretch or crop.
+* **Device Support**: Presets for Kindle, Kobo, Tolino, PocketBook, Onyx Boox, or custom dimensions.
+* **Calibre Integration**: Send directly using recipient addresses configured in Calibre.
+* **Non-Destructive**: Operates on temporary files - original EPUBs and covers remain untouched.
 
 ## Installation
 
-1. Download `CoverFit_Send.zip`.
-2. In Calibre: Preferences > Plugins > Load plugin from file, then pick the zip.
-3. Restart Calibre.
+1. Download `CoverFit_Send.zip` from Releases.
+2. In Calibre: **Preferences** > **Plugins** > **Load plugin from file**.
+3. Select the ZIP file and restart Calibre.
 
 ## Setup
 
-1. Set up your mail server and recipient addresses under Preferences > Sharing books by email.
-2. Open the plugin settings (toolbar button menu > Settings...).
-3. Choose your brand and model. If your device is not listed, choose "Other / custom size" and enter its screen resolution in pixels (portrait).
-4. Choose the fit mode and the default recipient.
+1. Configure recipient emails in Calibre under **Preferences** > **Sharing books by email**.
+2. Open plugin settings (**Toolbar button** > **Settings...**).
+3. Select your device model, fit mode, and default recipient.
 
 ## Usage
 
-Select one or more books and click the CoverFit Send button, or use its menu to pick another recipient. "Fit cover to screen" in the menu switches the cover adjustment on or off.
+Select one or more books and click **CoverFit Send** (or use the dropdown menu to choose another recipient).
 
-Only EPUB files are sent.
+*Note: Only EPUB files are supported.*
 
-## Notes
+## Building from source
 
-- Screen sizes are portrait pixel resolutions. Models with the same screen are grouped into one entry. Please verify the value for your device.
-- For color E Ink devices the listed resolution is that of the black-and-white layer.
-- The Boox Picco is listed from announced specifications.
-- Requires Calibre 5.0 or newer and Pillow (included with Calibre).
+## Building from source
+
+1. Clone the repository and navigate to the project root directory (where `__init__.py` is located).
+2. Build and install the plugin:
+
+```bash
+calibre-customize -b .
+```
+
+3. Launch Calibre in debug mode to view console logs and errors:
+
+```bash
+calibre-debug -g
+```
