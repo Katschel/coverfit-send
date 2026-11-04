@@ -133,6 +133,7 @@ class CoverFitSendAction(InterfaceAction):
         tmp = tempfile.mkdtemp(prefix='coverfit_')
         atexit.register(shutil.rmtree, tmp, True)
         jobs, files, subjects, texts, names = [], [], [], [], []
+        no_cover = []  # titles where no cover image could be found
         for i, (title, src, fname) in enumerate(items):
             path = src
             if prefs['enabled']:
@@ -140,6 +141,8 @@ class CoverFitSendAction(InterfaceAction):
                 try:
                     if make_fitted_copy(src, dst, w, h, prefs['mode']):
                         path = dst
+                    else:
+                        no_cover.append(title)
                 except Exception:
                     pass  # send the original unchanged
             jobs.append(title)
@@ -153,6 +156,9 @@ class CoverFitSendAction(InterfaceAction):
         send_mails(jobs, Dispatcher(self.done), files, [to] * len(files),
                    subjects, texts, names, self.gui.job_manager)
         self.gui.status_bar.show_message('Sending %d book(s) to %s' % (len(items), to), 3000)
+        if no_cover:
+            info_dialog(self.gui, self.name,
+                        'No cover found, sent unchanged: ' + ', '.join(no_cover), show=True)
 
     def done(self, job):
         pass  # Calibre's email job reports success/failure itself
