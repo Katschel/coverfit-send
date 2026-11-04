@@ -1,28 +1,54 @@
 from calibre.utils.config import JSONConfig
 from qt.core import QCheckBox, QComboBox, QFormLayout, QLabel, QSpinBox, QWidget
 
-# (key, title, width, height) -- portrait px. Verify for your model; use 'Other / custom size' if it is not listed.
-MODELS = [
-    ('basic-2022', 'Kindle Basic (2022-2026)', 1072, 1448),
-    ('basic-2019', 'Kindle Basic (2019)', 600, 800),
-    ('pw-2024', 'Kindle Paperwhite (2024-2026)', 1264, 1680),
-    ('pw-2021', 'Kindle Paperwhite (2021, 11th gen)', 1236, 1648),
-    ('pw-2015', 'Kindle Paperwhite (2015-2018)', 1072, 1448),
-    ('pw-2012', 'Kindle Paperwhite (2012-2013)', 758, 1024),
-    ('colorsoft', 'Kindle Colorsoft (2024-2026)', 1264, 1680),
-    ('oasis-2017', 'Kindle Oasis (2017-2019)', 1264, 1680),
-    ('oasis-2016', 'Kindle Oasis (2016)', 1072, 1448),
-    ('voyage', 'Kindle Voyage (2014)', 1072, 1448),
-    ('scribe-11', 'Kindle Scribe 11" (2025-2026)', 1980, 2640),
-    ('scribe-10', 'Kindle Scribe (2022-2024)', 1860, 2480),
-    # other e-readers
-    ('kobo-6', 'Kobo Clara / Nia class (6", 1072 x 1448)', 1072, 1448),
-    ('kobo-7', 'Kobo Libra / Clara Colour class (7", 1264 x 1680)', 1264, 1680),
-    ('kobo-8', 'Kobo Sage / Forma (8", 1440 x 1920)', 1440, 1920),
-    ('kobo-10', 'Kobo Elipsa / Tolino Epos (10", 1404 x 1872)', 1404, 1872),
-    ('tolino-7', 'Tolino Vision (7", 1264 x 1680)', 1264, 1680),
-    ('pocketbook-6', 'PocketBook Verse / Basic class (758 x 1024)', 758, 1024),
+# (brand key, brand title, [(model key, title, width, height), ...]) -- portrait px.
+# Models with the same screen are grouped into one entry. Verify for your model;
+# use "Other / custom size" if it is not listed.
+BRANDS = [
+    ('kindle', 'Kindle', [
+        ('basic-2022', 'Basic (2022-2026)', 1072, 1448),
+        ('pw-2024', 'Paperwhite (2024-2026)', 1264, 1680),
+        ('pw-2021', 'Paperwhite (2021, 11th gen)', 1236, 1648),
+        ('colorsoft', 'Colorsoft (2024-2026)', 1264, 1680),
+        ('scribe-11', 'Scribe 11" (2025-2026)', 1980, 2640),
+        ('scribe-10', 'Scribe (2022-2024)', 1860, 2480),
+    ]),
+    ('kobo', 'Kobo', [
+        ('kobo-6', 'Clara 2E / Clara BW / Clara Colour (6")', 1072, 1448),
+        ('kobo-7', 'Libra 2 / Libra Colour (7")', 1264, 1680),
+        ('kobo-8', 'Sage (8")', 1440, 1920),
+        ('kobo-10', 'Elipsa / Elipsa 2E (10.3")', 1404, 1872),
+    ]),
+    ('tolino', 'Tolino', [
+        ('tolino-6', 'Shine 4 / Shine 5 / Shine Color (6")', 1072, 1448),
+        ('tolino-6-lo', 'Page 2 (6")', 758, 1024),
+        ('tolino-7', 'Vision 5 / Vision 6 / Vision Color (7")', 1264, 1680),
+        ('tolino-8', 'Epos 2 / Epos 3 (8")', 1404, 1872),
+    ]),
+    ('pocketbook', 'PocketBook', [
+        ('pocketbook-6', 'Verse / Verse Lite / Basic Lux 3-4 (6")', 758, 1024),
+        ('pocketbook-6-hi', 'Verse Pro / Verse Pro Color (6")', 1072, 1448),
+        ('pocketbook-7', 'Era / Era Color / Era Lite (7")', 1264, 1680),
+        ('pocketbook-78', 'InkPad 4 / Color 2 / Color 3 (7.8")', 1404, 1872),
+        ('pocketbook-97', 'InkPad Lite (9.7")', 825, 1200),
+        ('pocketbook-10', 'InkPad X Pro / Color Note / InkPad One (10.3")', 1404, 1872),
+        ('pocketbook-10-hi', 'InkPad Eo / Eo 2 (10.3")', 1860, 2480),
+    ]),
+    ('boox', 'Onyx Boox', [
+        ('boox-6', 'Go 6 / Poke 5 (6")', 1072, 1448),
+        ('boox-6-lo', 'Poke 4 Lite (6")', 758, 1024),
+        ('boox-picco', 'Picco (3.97")', 480, 800),
+        ('boox-palma', 'Palma / Palma 2 / Palma 3 (6.13")', 824, 1648),
+        ('boox-7', 'Page / Go 7 / Go Color 7 / Leaf (7")', 1264, 1680),
+        ('boox-78', 'Nova Air / Nova Air 2 / Tab Mini C (7.8")', 1404, 1872),
+        ('boox-10', 'Note Air 2 / Air 3 / Note 5 / Tab Ultra (10.3")', 1404, 1872),
+        ('boox-10-hi', 'Go 10.3 / Note Air 3 C-6 C / Tab Ultra C (10.3")', 1860, 2480),
+        ('boox-85', 'Note Mini C (8.5")', 1536, 2048),
+        ('boox-133', 'Max Lumi 2 / Tab X (13.3", 2023)', 1650, 2200),
+        ('boox-133-hi', 'Note Max / Tab X C (13.3")', 2400, 3200),
+    ]),
 ]
+MODELS = [(k, '%s %s' % (bt, t), w, h) for _, bt, ms in BRANDS for k, t, w, h in ms]  # flat list
 CUSTOM = 'custom'
 DEFAULT_MODEL = 'basic-2022'
 
@@ -36,6 +62,13 @@ prefs.defaults['height'] = 1448
 prefs.defaults['mode'] = 'stretch'       # 'stretch' (distorts) or 'crop' (keeps proportions)
 prefs.defaults['to'] = ''                # default recipient; empty = Calibre's default email account
 prefs.defaults['toolbar_added'] = ''
+
+# models dropped from the list: users who had one selected keep their size as a custom size
+_DROPPED = {'basic-2019': (600, 800), 'pw-2015': (1072, 1448), 'pw-2012': (758, 1024),
+            'oasis-2017': (1264, 1680), 'oasis-2016': (1072, 1448), 'voyage': (1072, 1448)}
+if prefs['model'] in _DROPPED:
+    prefs['width'], prefs['height'] = _DROPPED[prefs['model']]
+    prefs['model'] = 'custom'
 
 # one-time carry-over of the settings file used under the old plugin name
 _old = JSONConfig('plugins/coverfill')
@@ -58,6 +91,10 @@ def _model_key():
         except ValueError:
             pass
     return DEFAULT_MODEL
+
+
+def _brand_of(key):
+    return next((b[0] for b in BRANDS if any(m[0] == key for m in b[2])), CUSTOM)
 
 
 def get_size():
@@ -93,12 +130,17 @@ class ConfigWidget(QWidget):
             self.to.addItem('No address set up: see Preferences > Sharing books by email', '')
         form.addRow('Default recipient', self.to)
 
+        key = _model_key()
+        self.brand = QComboBox()
+        for bk, bt, ms in BRANDS:
+            self.brand.addItem(bt, bk)
+        self.brand.addItem('Other / custom size', CUSTOM)
+        self.brand.setCurrentIndex(max(0, self.brand.findData(_brand_of(key))))
+        form.addRow('Brand', self.brand)
+
         self.model = QComboBox()
-        for k, title, w, h in MODELS:
-            self.model.addItem(title, k)
-        self.model.addItem('Other / custom size', CUSTOM)
-        self.model.setCurrentIndex(max(0, self.model.findData(_model_key())))
-        form.addRow('Device', self.model)
+        self.model_lbl = QLabel('Model')
+        form.addRow(self.model_lbl, self.model)
 
         self.res = QLabel()
         form.addRow('Screen', self.res)
@@ -122,28 +164,41 @@ class ConfigWidget(QWidget):
             note.setStyleSheet('color: gray;')
             form.addRow(note)
 
+        self.brand.currentIndexChanged.connect(lambda *a: self._fill_models())
         self.model.currentIndexChanged.connect(self._update)
         self.w.valueChanged.connect(self._update)
         self.h.valueChanged.connect(self._update)
+        self._fill_models(key)  # needs all widgets above, so it runs last
+
+    def _fill_models(self, select=None):
+        """Show only the models of the chosen brand."""
+        self.model.blockSignals(True)
+        self.model.clear()
+        models = next((b[2] for b in BRANDS if b[0] == self.brand.currentData()), [])
+        for k, title, w, h in models:
+            self.model.addItem(title, k)
+        self.model.setCurrentIndex(max(0, self.model.findData(select)))
+        self.model.blockSignals(False)
         self._update()
 
     def _update(self, *a):
-        key = self.model.currentData()
-        custom = key == CUSTOM
+        custom = self.brand.currentData() == CUSTOM
+        self.model_lbl.setVisible(not custom)
+        self.model.setVisible(not custom)
         for lbl, spin in self.custom_rows:
             lbl.setVisible(custom)
             spin.setVisible(custom)
         if custom:
             self.res.setText('%d x %d px' % (self.w.value(), self.h.value()))
         else:
-            m = next(m for m in MODELS if m[0] == key)
-            self.res.setText('%d x %d px' % (m[2], m[3]))
+            m = next((m for m in MODELS if m[0] == self.model.currentData()), None)
+            self.res.setText('%d x %d px' % (m[2], m[3]) if m else '')
 
     def save_settings(self):
         prefs['enabled'] = self.enabled.isChecked()
         if self.to.currentData():
             prefs['to'] = self.to.currentData()
-        prefs['model'] = self.model.currentData()
+        prefs['model'] = CUSTOM if self.brand.currentData() == CUSTOM else self.model.currentData()
         prefs['width'] = self.w.value()
         prefs['height'] = self.h.value()
         prefs['mode'] = self.mode.currentData()
