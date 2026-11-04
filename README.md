@@ -29,8 +29,6 @@ Select one or more books and click **CoverFit Send** (or use the dropdown menu t
 
 ## Building from source
 
-## Building from source
-
 1. Clone the repository and navigate to the project root directory (where `__init__.py` is located).
 2. Build and install the plugin:
 
