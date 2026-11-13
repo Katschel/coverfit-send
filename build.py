@@ -1,7 +1,7 @@
 import pathlib
 import zipfile
 
-root = pathlib.Path.cwd()  # run this from the top folder of the project
+root = pathlib.Path(__file__).resolve().parent
 src = root / 'plugin' if (root / 'plugin' / '__init__.py').exists() else root
 out = root / 'CoverFit_Send.zip'
 
