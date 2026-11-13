@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="images/banner.png" alt="CoverFit Send" width="720">
+</p>
+
 # CoverFit Send
 
 A Calibre plugin that emails EPUBs to your e-reader with the cover resized to fit the device screen.

@@ -11,7 +11,7 @@ with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
         rel = f.relative_to(src)
         if not f.is_file() or rel.parts[0].startswith('.') or '__pycache__' in rel.parts:
             continue
-        if f.name == 'build.py':
+        if f.name in ('build.py', 'banner.png'):
             continue
         if f.suffix in ('.py', '.png') or f.name.startswith('plugin-import-name'):
             z.write(f, rel.as_posix())
