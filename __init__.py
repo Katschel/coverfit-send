@@ -6,7 +6,7 @@ class CoverFitSend(InterfaceActionBase):
     description = 'Email books to your e-reader with the cover fitted to the screen'
     supported_platforms = ['windows', 'osx', 'linux']
     author = 'Katschel'
-    version = (0, 8)
+    version = (0, 9)
     minimum_calibre_version = (5, 0, 0)
     actual_plugin = 'calibre_plugins.coverfit_send.ui:CoverFitSendAction'
 
